@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 280" width="1040" height="280">
+  
+  <g fill="#fff" font-family="&#39;Bricolage Grotesque&#39;, &#39;Geist&#39;, system-ui, sans-serif" font-weight="800" font-size="260" letter-spacing="-12">
+    <text x="0" y="216">autosk</text>
+    <text x="820" y="216">p</text>
+  </g>
+
+  
+  <g transform="translate(680 56)" stroke="#fff" stroke-width="16" fill="none" stroke-linecap="square">
+    
+    <path d="M 12 50 V 12 H 50"></path>
+    <path d="M 118 12 H 156 V 50"></path>
+    <path d="M 156 118 V 156 H 118"></path>
+    <path d="M 50 156 H 12 V 118"></path>
+    
+    <circle cx="84" cy="84" r="46" stroke-width="18"></circle>
+  </g>
+  
+  <g transform="translate(680 56)">
+    <circle cx="84" cy="84" r="22" fill="#FF4747"></circle>
+    <path d="M 84 70 V 98 M 70 84 H 98" stroke="#fff" stroke-width="7" stroke-linecap="square"></path>
+  </g>
+</svg>

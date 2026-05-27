@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>autoskop — nájdi si auto, ktoré pasuje k tvojmu životu</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --coral: #FF4747;
+    --coral-deep: #E63838;
+    --coral-soft: #FFE4E1;
+    --ink: #0E0E12;
+    --ink-2: #2A2A33;
+    --muted: #6C6C78;
+    --line: #E9E7E2;
+    --paper: #FAF7F2;
+    --card: #FFFFFF;
+    --shadow-lg: 0 30px 80px -20px rgba(255,71,71,.35), 0 12px 40px rgba(14,14,18,.10);
+    --shadow-md: 0 12px 32px -8px rgba(14,14,18,.18);
+    --shadow-sm: 0 4px 14px rgba(14,14,18,.08);
+    --radius: 22px;
+    --radius-lg: 32px;
+    --motion: 1;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;background:var(--paper);color:var(--ink);
+    font-family:'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased}
+  body{overflow:hidden;overscroll-behavior:none}
+  #root{height:100vh;height:100dvh;width:100vw;overflow:hidden;position:relative}
+
+  .display{font-family:'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+    font-weight:700; letter-spacing:-.025em; line-height:.95;
+    font-variation-settings:"opsz" 96;}
+  .hero{font-size:clamp(44px, 9vw, 132px); font-weight:800; letter-spacing:-.035em;
+    line-height:.92; text-wrap:balance;}
+  .h1{font-size:clamp(32px,6vw,64px);font-weight:700;letter-spacing:-.025em;line-height:1;text-wrap:balance}
+  .h2{font-size:clamp(24px,4.2vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.05;text-wrap:balance}
+  .h3{font-size:clamp(18px,2.6vw,24px);font-weight:600;letter-spacing:-.015em;line-height:1.15}
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    font-family:'Geist',sans-serif}
+  .body-l{font-size:clamp(15px,1.7vw,18px);line-height:1.5;color:var(--muted)}
+  .body{font-size:15px;line-height:1.5;color:var(--muted)}
+
+  /* shared blocks */
+  .btn{appearance:none;border:0;cursor:pointer;font-family:inherit;font-weight:600;
+    font-size:16px;padding:18px 28px;border-radius:999px;display:inline-flex;
+    align-items:center;justify-content:center;gap:10px;transition:transform .25s cubic-bezier(.2,.7,.2,1),
+    box-shadow .25s, background .2s, color .2s;text-decoration:none}
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:#000;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+  .btn-coral{background:var(--coral);color:#fff}
+  .btn-coral:hover{background:var(--coral-deep);box-shadow:0 10px 30px rgba(255,71,71,.4)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+  .btn-ghost:hover{background:#fff;border-color:var(--ink)}
+  .btn-white{background:#fff;color:var(--ink)}
+  .btn-lg{padding:22px 36px;font-size:18px}
+
+  .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+    background:#fff;border:1px solid var(--line);font-size:13px;font-weight:500}
+
+  /* keyframes */
+  @keyframes scope-rotate { to { transform: rotate(360deg) } }
+  @keyframes scope-pulse {
+    0%,100% { transform: scale(1); opacity: 1 }
+    50% { transform: scale(1.08); opacity: .7 }
+  }
+  @keyframes scope-scan {
+    0%   { transform: translateY(-50%) translateX(-120%); opacity: 0 }
+    20%  { opacity: 1 }
+    80%  { opacity: 1 }
+    100% { transform: translateY(-50%) translateX(120%); opacity: 0 }
+  }
+  @keyframes slideUp { from { transform: translateY(40px); opacity:0 } to { transform: translateY(0); opacity:1 } }
+  @keyframes slideRight { from { transform: translateX(40px); opacity:0 } to { transform: translateX(0); opacity:1 } }
+  @keyframes pop { 0% {transform:scale(.7);opacity:0} 100% {transform:scale(1);opacity:1} }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  @keyframes shimmer {
+    0% { background-position: -200% 0 } 100% { background-position: 200% 0 }
+  }
+  @keyframes drive-in {
+    0% { transform: translateX(-40%) scale(.9); opacity: 0 }
+    60% { transform: translateX(2%) scale(1.02); opacity: 1 }
+    100% { transform: translateX(0) scale(1); opacity: 1 }
+  }
+  @keyframes blink { 0%,100% {opacity:1} 50% {opacity:.3} }
+  @keyframes drift-tag {
+    0% { transform: translate(0,0) rotate(var(--r,0deg)) }
+    50% { transform: translate(var(--dx,4px), var(--dy,-6px)) rotate(var(--r,0deg)) }
+    100% { transform: translate(0,0) rotate(var(--r,0deg)) }
+  }
+  @keyframes screenIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* responsive helpers */
+  .card-grid-collapse { display: grid }
+  @media (max-width: 860px) {
+    .card-grid-collapse { grid-template-columns: 1fr !important }
+  }
+  .form-row { display: grid }
+  @media (max-width: 560px) {
+    .form-row { grid-template-columns: 1fr !important }
+  }
+
+  .anim-slide-up { animation: slideUp calc(.6s * var(--motion)) cubic-bezier(.2,.7,.2,1) both }
+  .anim-pop { animation: pop calc(.5s * var(--motion)) cubic-bezier(.2,.9,.3,1.2) both }
+  .anim-float { animation: float calc(4s * var(--motion)) ease-in-out infinite }
+  .anim-drive-in { animation: drive-in calc(1.1s * var(--motion)) cubic-bezier(.2,.7,.2,1) both }
+
+  /* utility */
+  .no-scrollbar::-webkit-scrollbar { display: none }
+  .no-scrollbar { scrollbar-width: none }
+  .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* selection */
+  ::selection { background: var(--coral); color: white }
+
+  input, textarea, select, button { font-family: inherit }
+
+  /* On large screens, frame the experience like a flagship single-page app */
+  @media (min-width: 1100px) {
+    .desk-frame { max-width: 1440px; margin: 0 auto }
+  }
+</style>
+
+<!-- Speaker notes intentionally omitted -->
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React 18 + Babel -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="cars.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
